@@ -52,8 +52,6 @@ public class BookController {
 	@ApiOperation(value="도서 추가", notes="신규 도서를 추가합니다.")
 	@PostMapping
 	public Book insertBook(BookID bookId, Book book) {
-		System.out.println("책제목 보이냐 : " +book);
-		System.out.println("책제목 보이냐 : " +bookId);
 		String bookKey = UUID.randomUUID().toString();
 		BookID bId = new BookID(bookKey, bookId.getBookName());
 		book.setBookID(bId);

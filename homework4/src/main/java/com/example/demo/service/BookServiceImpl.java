@@ -57,11 +57,8 @@ public class BookServiceImpl implements BookService {
 //		List<Book> bk = bookRepository.findAll();
 //		for(int i = 0; i < bk.size(); i++ ) {
 //			if(bookId.getBookKey().equals(bk.get(i).getBookID().getBookKey())) {
-//				System.out.println("돌려진 bk.get(i).getBookID() : "+ bk.get(i).getBookID());
-//				System.out.println("설정될 bookId.getBookName() : "+ bookId.getBookName());
 ////				bk.get(i).getBookID().setBookName(bookId.getBookName());;
 //				bk.get(i).getBookID().update(bookId.getBookKey(), bookId.getBookName());
-//				System.out.println("바껴야할 bk.get(i).getBookID() : "+ bk.get(i).getBookID());
 //			}
 //		}
 //		
@@ -79,11 +76,7 @@ public class BookServiceImpl implements BookService {
 //		Optional<Book> newBook = searchBook(bookId);
 //		newBook.get().getBookID().update(bookId.getBookKey(), bookName);;
 //		Book b = newBook.get();
-//		System.out.println("전 Book b : " + b);
-//		System.out.println("bookId, book.getWriter(), book.getCategory() : " + bookId +", "+ book.getWriter()+", "+ book.getCategory());
 //		b.update(b.getBookID(), book.getWriter(), book.getCategory());
-//		System.out.println("후 Book b : " + b);
-//		System.out.println("bk 목록 : " + bk);
 //		
 //		return newBook;
 		
