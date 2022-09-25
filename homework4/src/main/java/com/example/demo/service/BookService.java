@@ -12,13 +12,19 @@ public interface BookService {
 
 	List<Book> selectAll();
 
-	Optional<Book> searchBook(BookID bookId);
+//	Optional<Book> searchBook(BookID bookId);
 
-	void insertBook(Book book);
+	Book searchBook(String bookKey);
+	
+	Book deleteBook(String bookKey);
 
-	Optional<Book> find(BookID bookId, Book book, String bookName);
+	Book Update(BookID bookId, Book book);
 
-	Book deleteBook(BookID bookId);
+	Book insertBook(String bookName, String writer, String category);
+
+	BookID checkBook(String bookName);
+
+
 
 	
 	

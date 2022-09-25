@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.vo.Book;
 import com.example.demo.vo.BookID;
@@ -29,75 +31,85 @@ public class BookServiceImpl implements BookService {
 		
 	}
 
-	// 도서 검색
+	// 도서 검색 new
 	@Override
-	public Optional<Book> searchBook(BookID bookId) {
+	public Book searchBook(String bookKey) {
 		List<Book> bk = bookRepository.findAll();
+		BookID bookId = new BookID();
+		bookId.setBookKey(bookKey);
 		for(int i = 0; i < bk.size(); i++ ) {
 			if(bookId.getBookKey().equals(bk.get(i).getBookID().getBookKey())) {
 				bookId.setBookName(bk.get(i).getBookID().getBookName());
 			}
 		}
 		Optional<Book> book = bookRepository.findById(bookId);
-		return book;
+		Book findBook = book.get();
+		return findBook;
 	}
 	
 
 	// 도서 등록
 	@Transactional
 	@Override
-	public void insertBook(Book book) {
-		bookRepository.save(book);
-	}
-
-	// 도서 수정
-	@Transactional
-	@Override
-	public Optional<Book> find(BookID bookId, Book book, String bookName) {
-//		List<Book> bk = bookRepository.findAll();
-//		for(int i = 0; i < bk.size(); i++ ) {
-//			if(bookId.getBookKey().equals(bk.get(i).getBookID().getBookKey())) {
-////				bk.get(i).getBookID().setBookName(bookId.getBookName());;
-//				bk.get(i).getBookID().update(bookId.getBookKey(), bookId.getBookName());
-//			}
-//		}
-//		
-//		System.out.println("bookId : " + bookId);
-//		System.out.println("bk 목록 : " + bk);
-//		Optional<Book> newBook = bookRepository.findById(bookId);
-//		if(newbook.isPresent()) {
-//			return 0;
-//		}
-//		b.getBookID().setBookName(bookName);;
-//		b.setWriter(book.getWriter());
-//		b.setCategory(book.getCategory());
+	public Book insertBook(String bookName, String writer, String category) {
+		Book newBook = new Book();
+		BookID cBookId = checkBook(bookName);
+		if(null == cBookId) {
+			String bookKey = UUID.randomUUID().toString();
+			BookID bId = new BookID(bookKey, bookName);
+			newBook.setBookID(bId);
+			newBook.setWriter(writer);
+			newBook.setCategory(category);
+			bookRepository.save(newBook);
+			
+		} else {
+			newBook = null;
+		}
 		
-		
-//		Optional<Book> newBook = searchBook(bookId);
-//		newBook.get().getBookID().update(bookId.getBookKey(), bookName);;
-//		Book b = newBook.get();
-//		b.update(b.getBookID(), book.getWriter(), book.getCategory());
-//		
-//		return newBook;
-		
-		
-		Optional<Book> newBook = searchBook(bookId);
-		//newBook.get().update(bookId, book.getWriter(), book.getCategory());
-		Book b = newBook.get();
-		b.setWriter(book.getWriter());
-		b.setCategory(book.getCategory());
-		bookRepository.save(b);
 		return newBook;
 	}
 
+
+	// 도서 수정
+	@Override
+	public Book Update(BookID bookId, Book book) {
+		Book findBook = searchBook(bookId.getBookKey());
+		Book b = findBook;
+		b.setWriter(book.getWriter());
+		b.setCategory(book.getCategory());
+		bookRepository.save(b);
+		return findBook;
+	}
+	
+	
+	
 	// 도서 삭제
 	@Override
-	public Book deleteBook(BookID bookId) {
-		Optional<Book> newBook = searchBook(bookId);
-		bookRepository.delete(newBook.get());
-		Book b = newBook.get();
+	public Book deleteBook(String bookKey) {
+		Book newBook = searchBook(bookKey);
+		bookRepository.delete(newBook);
+		Book b = newBook;
 		return b;
 	}
+
+	// 중복이름검사
+	@Override
+	public BookID checkBook(String bookName) {
+		List<Book> bk = bookRepository.findAll();
+		BookID bookId = null;
+		for(int i = 0; i < bk.size(); i++ ) {
+			if(bookName.equals(bk.get(i).getBookID().getBookName())) {
+				bookId = new BookID();
+				bookId.setBookKey(bk.get(i).getBookID().getBookKey());
+				bookId.setBookName(bookName);
+			} 
+		}
+		return bookId;
+	}
+
+
+
+	
 
 
 	

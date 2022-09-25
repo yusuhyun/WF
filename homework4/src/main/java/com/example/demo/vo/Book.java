@@ -11,7 +11,6 @@ import org.springframework.data.annotation.Id;
 @Entity 
 public class Book {
 	
-	@Id
 	@EmbeddedId
 	private BookID bookID;
 	
