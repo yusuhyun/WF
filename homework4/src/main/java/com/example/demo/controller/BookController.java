@@ -53,10 +53,6 @@ public class BookController {
 	@PostMapping
 	public Book insertBook(@RequestParam String bookName, @RequestParam String writer, @RequestParam String category) {
 		Book newBook = bookService.insertBook(bookName, writer, category);
-		System.out.println("newBook : " + newBook);
-		if(newBook == null) {
-			System.out.println("제목 중복 : " + newBook);
-		} 
 		return newBook;
 	}
 	

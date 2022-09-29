@@ -54,7 +54,6 @@ public class BookServiceImpl implements BookService {
 	public Book insertBook(String bookName, String writer, String category) {
 		Book newBook = new Book();
 		BookID cBookId = checkBook(bookName);
-		if(null == cBookId) {
 			String bookKey = UUID.randomUUID().toString();
 			BookID bId = new BookID(bookKey, bookName);
 			newBook.setBookID(bId);
@@ -62,10 +61,6 @@ public class BookServiceImpl implements BookService {
 			newBook.setCategory(category);
 			bookRepository.save(newBook);
 			
-		} else {
-			newBook = null;
-		}
-		
 		return newBook;
 	}
 

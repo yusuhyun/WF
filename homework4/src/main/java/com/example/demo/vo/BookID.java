@@ -11,7 +11,7 @@ public class BookID implements Serializable{
 	@Column(name="bookKey", nullable =false)
 	private String bookKey;
 	
-	@Column(name="bookName", nullable =false)
+	@Column(name="bookName", nullable =false, unique = true)
 	private String bookName;
 
 	public BookID() {}
