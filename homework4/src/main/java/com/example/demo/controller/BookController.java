@@ -52,7 +52,9 @@ public class BookController {
 	@ApiOperation(value="도서 추가", notes="신규 도서를 추가합니다.")
 	@PostMapping
 	public Book insertBook(@RequestParam String bookName, @RequestParam String writer, @RequestParam String category) {
+		System.out.println("입력모음 : " +bookName +"," + writer+ ", " + category);
 		Book newBook = bookService.insertBook(bookName, writer, category);
+		System.out.println("반환모음 : " + newBook);
 		return newBook;
 	}
 	
