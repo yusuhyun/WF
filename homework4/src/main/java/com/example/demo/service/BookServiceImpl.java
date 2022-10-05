@@ -120,7 +120,8 @@ public class BookServiceImpl implements BookService {
 
 	// 도서 수정
 	@Override
-	public Book Update(BookID bookId, Book book) {
+	public Book Update(String bookKey, String bookName, String writer, String category) {
+//	public Book Update(BookID bookId, Book book) {
 		
 		// HtmlUtils 사용
 //		Book findBook = searchBook(HtmlUtils.htmlEscape(bookId.getBookKey()));
@@ -131,14 +132,15 @@ public class BookServiceImpl implements BookService {
 //		return findBook;
 		
 		// 필터사용시 전환
+		BookID bookId = new BookID(bookKey,bookName);
+		
 		Book findBook = searchBook(bookId.getBookKey());
 		Book b = findBook;
-		b.setWriter(book.getWriter());
-		b.setCategory(book.getCategory());
+		b.setWriter(writer);
+		b.setCategory(category);
 		bookRepository.save(b);
 		return findBook;
 	}
-	
 	
 	
 	// 도서 삭제
@@ -168,6 +170,8 @@ public class BookServiceImpl implements BookService {
 		return bookId;
 		
 	}
+
+	
 
 
 

@@ -18,11 +18,13 @@ public interface BookService {
 	
 	Book deleteBook(String bookKey);
 
-	Book Update(BookID bookId, Book book);
+//	Book Update(BookID bookId, Book book);
+	Book Update(String bookKey, String bookName, String writer, String category);
 
 	Book insertBook(String bookName, String writer, String category);
 
 	BookID checkBook(String bookName);
+
 
 
 

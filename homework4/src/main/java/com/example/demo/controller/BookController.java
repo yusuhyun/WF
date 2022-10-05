@@ -52,17 +52,15 @@ public class BookController {
 	@ApiOperation(value="도서 추가", notes="신규 도서를 추가합니다.")
 	@PostMapping
 	public Book insertBook(@RequestParam String bookName, @RequestParam String writer, @RequestParam String category) {
-		System.out.println("입력모음 : " +bookName +"," + writer+ ", " + category);
 		Book newBook = bookService.insertBook(bookName, writer, category);
-		System.out.println("반환모음 : " + newBook);
 		return newBook;
 	}
 	
 	// 도서수정
 	@ApiOperation(value="도서 수정", notes="도서 정보를 수정합니다.")
 	@PutMapping("/{bookKey}")
-	public Book updateBook(@RequestBody BookID bookId,@RequestBody Book book) {
-		return bookService.Update(bookId, book);
+	public Book updateBook(@RequestParam String bookKey ,@RequestParam String bookName, @RequestParam String writer, @RequestParam String category) {
+		return bookService.Update(bookKey, bookName,writer, category);
 	}
 	
 	// 도서삭제
