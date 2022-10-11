@@ -26,9 +26,9 @@ public class HTMLEscapes extends CharacterEscapes {
 		
 		Map<CharSequence, CharSequence> customMap = new HashMap<CharSequence, CharSequence>();
         customMap.put("\'", "&apos;");
-        //customMap.put("(", "&#40;");
-        //customMap.put(")", "&#41;");
-        //customMap.put("#", "&#35;");
+        customMap.put("(", "&#40;");
+        customMap.put(")", "&#41;");
+        customMap.put("#", "&#35;");
         Map<CharSequence, CharSequence> CUSTOM_ESCAPE = Collections.unmodifiableMap(customMap);
         
         // 1. XSS 방지 처리할 특수 문자 지정
@@ -46,7 +46,8 @@ public class HTMLEscapes extends CharacterEscapes {
         translator = new AggregateTranslator(
             new LookupTranslator(EntityArrays.BASIC_ESCAPE),  // <, >, &, " 는 여기에 포함됨
             new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
-            new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
+            new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE),
+            new LookupTranslator(CUSTOM_ESCAPE)
         );
 	}
 	
@@ -57,7 +58,7 @@ public class HTMLEscapes extends CharacterEscapes {
 
     @Override
     public SerializableString getEscapeSequence(int ch) {
-        return new SerializedString(StringEscapeUtils.escapeHtml4(Character.toString((char) ch)));
+        return new SerializedString(translator.translate(Character.toString((char) ch)));
     }
 	
 	
